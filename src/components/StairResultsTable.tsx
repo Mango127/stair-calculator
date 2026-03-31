@@ -20,7 +20,7 @@ function StatusBadge({ ok }: { ok: boolean }) {
   );
 }
 
-export default function StairResultsTable({ result, onTotalHeightChange, onFlightRunChange, onNumTreadsChange, onRiserHeightChange }: Props) {
+export default function StairResultsTable({ result, onTotalHeightChange, onFlightRunChange, onNumTreadsChange, onRiserHeightChange, onNumRisersChange }: Props) {
   const rows: { label: string; value: string; constraint: string; valid: boolean; editor?: React.ReactNode }[] = [
     {
       label: "Total Height",
