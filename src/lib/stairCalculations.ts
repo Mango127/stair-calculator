@@ -57,7 +57,7 @@ function optimizeRisers(totalHeight: number, flightRun: number): { numRisers: nu
   return { numRisers: bestRisers, blondel: 2 * rH + tD };
 }
 
-export const FLIGHT_RUN_OPTIONS = [3040, 3140, 3240, 3340, 3440, 3540, 3640];
+export const FLIGHT_RUN_OPTIONS = [3400, 4000, 4600, 5200, 5800, 6400, 7000, 7600, 8200, 8800, 9400, 10000];
 
 export function calculateStairs(params: StairParams): StairResult {
   const { totalHeight, maxAngle, nosing, flightRunOverride, numTreadsOverride, riserHeightOverride } = params;
