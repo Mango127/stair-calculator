@@ -74,6 +74,7 @@ export default function StairCalculator() {
           onFlightRunChange={setFlightRunOverride}
           onNumTreadsChange={handleNumTreadsChange}
           onRiserHeightChange={handleRiserHeightChange}
+          onNumRisersChange={handleNumRisersChange}
         />
 
         {/* Drawings */}
