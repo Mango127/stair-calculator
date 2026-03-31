@@ -11,6 +11,7 @@ interface Props {
   onFlightRunChange: (v: number | undefined) => void;
   onNumTreadsChange: (v: number | undefined) => void;
   onRiserHeightChange: (v: number | undefined) => void;
+  onNumRisersChange: (v: number | undefined) => void;
 }
 
 function StatusBadge({ ok }: { ok: boolean }) {
