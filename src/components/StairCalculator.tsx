@@ -11,20 +11,29 @@ export default function StairCalculator() {
   const [flightRunOverride, setFlightRunOverride] = useState<number | undefined>(undefined);
   const [numTreadsOverride, setNumTreadsOverride] = useState<number | undefined>(undefined);
   const [riserHeightOverride, setRiserHeightOverride] = useState<number | undefined>(undefined);
+  const [numRisersOverride, setNumRisersOverride] = useState<number | undefined>(undefined);
 
   const result = useMemo(
-    () => calculateStairs({ totalHeight, gridValue: 600, maxAngle: 41, nosing, flightRunOverride, numTreadsOverride, riserHeightOverride }),
-    [totalHeight, nosing, flightRunOverride, numTreadsOverride, riserHeightOverride]
+    () => calculateStairs({ totalHeight, gridValue: 600, maxAngle: 41, nosing, flightRunOverride, numTreadsOverride, riserHeightOverride, numRisersOverride }),
+    [totalHeight, nosing, flightRunOverride, numTreadsOverride, riserHeightOverride, numRisersOverride]
   );
 
   const handleNumTreadsChange = (v: number | undefined) => {
     setNumTreadsOverride(v);
-    setRiserHeightOverride(undefined); // clear conflicting override
+    setRiserHeightOverride(undefined);
+    setNumRisersOverride(undefined);
   };
 
   const handleRiserHeightChange = (v: number | undefined) => {
     setRiserHeightOverride(v);
-    setNumTreadsOverride(undefined); // clear conflicting override
+    setNumTreadsOverride(undefined);
+    setNumRisersOverride(undefined);
+  };
+
+  const handleNumRisersChange = (v: number | undefined) => {
+    setNumRisersOverride(v);
+    setNumTreadsOverride(undefined);
+    setRiserHeightOverride(undefined);
   };
 
   return (
@@ -65,6 +74,7 @@ export default function StairCalculator() {
           onFlightRunChange={setFlightRunOverride}
           onNumTreadsChange={handleNumTreadsChange}
           onRiserHeightChange={handleRiserHeightChange}
+          onNumRisersChange={handleNumRisersChange}
         />
 
         {/* Drawings */}

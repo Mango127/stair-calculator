@@ -6,6 +6,7 @@ export interface StairParams {
   flightRunOverride?: number;
   numTreadsOverride?: number;
   riserHeightOverride?: number;
+  numRisersOverride?: number;
 }
 
 export interface StairResult {
@@ -57,10 +58,10 @@ function optimizeRisers(totalHeight: number, flightRun: number): { numRisers: nu
   return { numRisers: bestRisers, blondel: 2 * rH + tD };
 }
 
-export const FLIGHT_RUN_OPTIONS = [3040, 3140, 3240, 3340, 3440, 3540, 3640];
+export const FLIGHT_RUN_OPTIONS = [3400, 4000, 4600, 5200, 5800, 6400, 7000, 7600, 8200, 8800, 9400, 10000];
 
 export function calculateStairs(params: StairParams): StairResult {
-  const { totalHeight, maxAngle, nosing, flightRunOverride, numTreadsOverride, riserHeightOverride } = params;
+  const { totalHeight, maxAngle, nosing, flightRunOverride, numTreadsOverride, riserHeightOverride, numRisersOverride } = params;
   const errors: string[] = [];
 
   // 1. Flight run
@@ -68,7 +69,9 @@ export function calculateStairs(params: StairParams): StairResult {
 
   // 2. Determine risers
   let numRisers: number;
-  if (riserHeightOverride) {
+  if (numRisersOverride) {
+    numRisers = numRisersOverride;
+  } else if (riserHeightOverride) {
     numRisers = Math.round(totalHeight / riserHeightOverride);
   } else if (numTreadsOverride) {
     numRisers = numTreadsOverride + 1;
