@@ -6,6 +6,7 @@ export interface StairParams {
   flightRunOverride?: number;
   numTreadsOverride?: number;
   riserHeightOverride?: number;
+  numRisersOverride?: number;
 }
 
 export interface StairResult {
