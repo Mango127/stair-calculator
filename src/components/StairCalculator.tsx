@@ -11,10 +11,11 @@ export default function StairCalculator() {
   const [flightRunOverride, setFlightRunOverride] = useState<number | undefined>(undefined);
   const [numTreadsOverride, setNumTreadsOverride] = useState<number | undefined>(undefined);
   const [riserHeightOverride, setRiserHeightOverride] = useState<number | undefined>(undefined);
+  const [numRisersOverride, setNumRisersOverride] = useState<number | undefined>(undefined);
 
   const result = useMemo(
-    () => calculateStairs({ totalHeight, gridValue: 600, maxAngle: 41, nosing, flightRunOverride, numTreadsOverride, riserHeightOverride }),
-    [totalHeight, nosing, flightRunOverride, numTreadsOverride, riserHeightOverride]
+    () => calculateStairs({ totalHeight, gridValue: 600, maxAngle: 41, nosing, flightRunOverride, numTreadsOverride, riserHeightOverride, numRisersOverride }),
+    [totalHeight, nosing, flightRunOverride, numTreadsOverride, riserHeightOverride, numRisersOverride]
   );
 
   const handleNumTreadsChange = (v: number | undefined) => {
