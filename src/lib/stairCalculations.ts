@@ -69,7 +69,9 @@ export function calculateStairs(params: StairParams): StairResult {
 
   // 2. Determine risers
   let numRisers: number;
-  if (riserHeightOverride) {
+  if (numRisersOverride) {
+    numRisers = numRisersOverride;
+  } else if (riserHeightOverride) {
     numRisers = Math.round(totalHeight / riserHeightOverride);
   } else if (numTreadsOverride) {
     numRisers = numTreadsOverride + 1;
