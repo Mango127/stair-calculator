@@ -61,7 +61,7 @@ function optimizeRisers(totalHeight: number, flightRun: number): { numRisers: nu
 export const FLIGHT_RUN_OPTIONS = [3400, 4000, 4600, 5200, 5800, 6400, 7000, 7600, 8200, 8800, 9400, 10000];
 
 export function calculateStairs(params: StairParams): StairResult {
-  const { totalHeight, maxAngle, nosing, flightRunOverride, numTreadsOverride, riserHeightOverride } = params;
+  const { totalHeight, maxAngle, nosing, flightRunOverride, numTreadsOverride, riserHeightOverride, numRisersOverride } = params;
   const errors: string[] = [];
 
   // 1. Flight run
