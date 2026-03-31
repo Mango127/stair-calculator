@@ -1,9 +1,11 @@
 export interface StairParams {
-  totalHeight: number; // mm
-  gridValue: number; // mm (600)
-  maxAngle: number; // degrees
-  nosing: number; // mm
-  riserHeightOverride?: number; // mm, optional manual override
+  totalHeight: number;
+  gridValue: number;
+  maxAngle: number;
+  nosing: number;
+  flightRunOverride?: number;
+  numTreadsOverride?: number;
+  riserHeightOverride?: number;
 }
 
 export interface StairResult {
@@ -23,30 +25,19 @@ export interface StairResult {
   errors: string[];
 }
 
-/**
- * Round down to nearest multiple of given value
- */
 function roundToMultiple(value: number, multiple: number): number {
   return Math.floor(value / multiple) * multiple;
 }
 
-/**
- * Calculate flight run as multiple of 400mm
- * Formula: totalHeight / tan(radians(maxAngle)) → round to nearest multiple of 400
- */
 export function calcFlightRun(totalHeight: number, maxAngle: number): number {
   const raw = totalHeight / Math.tan((maxAngle * Math.PI) / 180);
   return roundToMultiple(raw, 400);
 }
 
-/**
- * Find optimal number of risers for best Blondel compliance
- */
-function optimizeRisers(totalHeight: number, flightRun: number, nosing: number): { numRisers: number; blondel: number } {
+function optimizeRisers(totalHeight: number, flightRun: number): { numRisers: number; blondel: number } {
   let bestRisers = 16;
   let bestBlondelDiff = Infinity;
 
-  // Try range of risers
   for (let r = 10; r <= 25; r++) {
     const riserH = totalHeight / r;
     if (riserH > 190 || riserH < 100) continue;
@@ -55,7 +46,7 @@ function optimizeRisers(totalHeight: number, flightRun: number, nosing: number):
     if (treadD < 280) continue;
 
     const blondel = 2 * riserH + treadD;
-    const diff = Math.abs(blondel - 630); // ideal Blondel ~630
+    const diff = Math.abs(blondel - 630);
     if (diff < bestBlondelDiff) {
       bestBlondelDiff = diff;
       bestRisers = r;
@@ -66,15 +57,25 @@ function optimizeRisers(totalHeight: number, flightRun: number, nosing: number):
   return { numRisers: bestRisers, blondel: 2 * rH + tD };
 }
 
+export const FLIGHT_RUN_OPTIONS = [3040, 3140, 3240, 3340, 3440, 3540, 3640];
+
 export function calculateStairs(params: StairParams): StairResult {
-  const { totalHeight, maxAngle, nosing } = params;
+  const { totalHeight, maxAngle, nosing, flightRunOverride, numTreadsOverride, riserHeightOverride } = params;
   const errors: string[] = [];
 
   // 1. Flight run
-  const flightRun = calcFlightRun(totalHeight, maxAngle);
+  const flightRun = flightRunOverride ?? calcFlightRun(totalHeight, maxAngle);
 
-  // 2. Optimize risers
-  const { numRisers, blondel } = optimizeRisers(totalHeight, flightRun, nosing);
+  // 2. Determine risers
+  let numRisers: number;
+  if (riserHeightOverride) {
+    numRisers = Math.round(totalHeight / riserHeightOverride);
+  } else if (numTreadsOverride) {
+    numRisers = numTreadsOverride + 1;
+  } else {
+    numRisers = optimizeRisers(totalHeight, flightRun).numRisers;
+  }
+  if (numRisers < 2) numRisers = 2;
 
   // 3. Derived values
   const riserHeight = totalHeight / numRisers;
@@ -82,7 +83,9 @@ export function calculateStairs(params: StairParams): StairResult {
   const treadDepth = flightRun / numTreads;
   const angle = (Math.atan(totalHeight / flightRun) * 180) / Math.PI;
   const numSteps = numTreads + 1; // last step is slab
-  const totalLength = flightRun + nosing; // nosing extends beyond last tread
+  const blondel = 2 * riserHeight + treadDepth;
+  // Nosing is internal - does NOT add to total length
+  const totalLength = flightRun;
 
   // Validate
   if (riserHeight > 190) errors.push("Riser height exceeds 190mm");

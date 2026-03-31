@@ -4,24 +4,20 @@ interface Props {
   result: StairResult;
 }
 
-const STEP_THICKNESS = 20; // mm
+const STEP_THICKNESS = 20;
 
 export default function StairSectionView({ result }: Props) {
   const { totalHeight, flightRun, numTreads, riserHeight, treadDepth, nosing, numRisers } = result;
 
-  // SVG coordinate system: we'll work in mm then scale
-  const wallThickness = 200; // 20cm walls
   const margin = 300;
   const gridSize = 600;
 
-  const svgW = flightRun + 2 * margin + wallThickness;
+  const svgW = flightRun + 2 * margin + 200;
   const svgH = totalHeight + 2 * margin + 200;
 
-  // Origin: bottom-left of stair (first riser base)
   const ox = margin;
   const oy = svgH - margin;
 
-  // Scale to fit viewport
   const viewBox = `0 0 ${svgW} ${svgH}`;
 
   // Grid lines
@@ -30,31 +26,58 @@ export default function StairSectionView({ result }: Props) {
   const gridLinesV: number[] = [];
   for (let x = -gridSize; x <= flightRun + gridSize; x += gridSize) gridLinesV.push(x);
 
-  // Build step outlines (section view - looking from the side)
+  // Build steps - nosing is internal (within tread depth, not extending beyond)
   const stepPaths: JSX.Element[] = [];
   for (let i = 0; i < numRisers; i++) {
-    const x = i < numTreads ? i * treadDepth : (numTreads - 1) * treadDepth + treadDepth;
-    const y = (i + 1) * riserHeight;
-    const tWidth = i < numTreads ? treadDepth + nosing : treadDepth; // last is slab
-
     if (i < numTreads) {
-      // Tread rectangle (with nosing overhang for non-last)
-      const tx = ox + i * treadDepth - (i > 0 ? nosing : 0);
-      const ty = oy - y;
-      const tw = treadDepth + nosing;
+      // Regular tread - nosing is internal, tread width = treadDepth
+      const tx = ox + i * treadDepth;
+      const ty = oy - (i + 1) * riserHeight;
 
       stepPaths.push(
         <rect
           key={`tread-${i}`}
           x={tx}
           y={ty}
-          width={tw}
+          width={treadDepth}
           height={STEP_THICKNESS}
           fill="hsl(215, 20%, 95%)"
           stroke="hsl(220, 20%, 15%)"
           strokeWidth={1.5}
         />
       );
+
+      // Nosing indicator line (internal, dashed)
+      if (nosing > 0 && i > 0) {
+        stepPaths.push(
+          <line
+            key={`nosing-${i}`}
+            x1={tx}
+            y1={ty}
+            x2={tx}
+            y2={ty + STEP_THICKNESS}
+            stroke="hsl(217, 80%, 55%)"
+            strokeWidth={0.8}
+            strokeDasharray="3 2"
+          />
+        );
+        // Nosing dimension on first visible one
+        if (i === 1) {
+          stepPaths.push(
+            <text
+              key="nosing-label"
+              x={tx + nosing / 2}
+              y={ty + STEP_THICKNESS + 14}
+              fontSize={9}
+              fill="hsl(217, 80%, 55%)"
+              fontFamily="monospace"
+              textAnchor="middle"
+            >
+              n={nosing}
+            </text>
+          );
+        }
+      }
     }
 
     // Riser line
@@ -72,27 +95,40 @@ export default function StairSectionView({ result }: Props) {
     );
   }
 
-  // Slab at top (last "step")
-  const slabX = ox + (numTreads - 1) * treadDepth;
+  // Slab at top - starts at the last riser position, extends right, doesn't overlap treads
+  const slabX = ox + numTreads * treadDepth;
   const slabY = oy - totalHeight;
   stepPaths.push(
     <rect
       key="slab"
       x={slabX}
       y={slabY}
-      width={treadDepth + nosing + 100}
+      width={treadDepth + 100}
       height={STEP_THICKNESS}
       fill="hsl(215, 15%, 85%)"
       stroke="hsl(220, 20%, 15%)"
       strokeWidth={2}
     />
   );
+  stepPaths.push(
+    <text
+      key="slab-label"
+      x={slabX + (treadDepth + 100) / 2}
+      y={slabY - 8}
+      fontSize={11}
+      fill="hsl(220, 15%, 40%)"
+      fontFamily="monospace"
+      textAnchor="middle"
+    >
+      SLAB
+    </text>
+  );
 
   // Bottom floor line
   stepPaths.push(
     <line
       key="floor"
-      x1={ox - nosing - 50}
+      x1={ox - 50}
       y1={oy}
       x2={ox + 200}
       y2={oy}
@@ -107,10 +143,7 @@ export default function StairSectionView({ result }: Props) {
   const arcEndX = ox + arcRadius * Math.cos(angleRad);
   const arcEndY = oy - arcRadius * Math.sin(angleRad);
 
-  // Dimension: total height (right side)
   const dimX = ox + flightRun + 120;
-
-  // Dimension: flight run (bottom)
   const dimY = oy + 80;
 
   return (
@@ -119,58 +152,21 @@ export default function StairSectionView({ result }: Props) {
       <svg viewBox={viewBox} className="w-full" style={{ maxHeight: 500 }}>
         {/* Grid */}
         {gridLinesH.map((y) => (
-          <line
-            key={`gh-${y}`}
-            x1={0}
-            y1={oy - y}
-            x2={svgW}
-            y2={oy - y}
-            stroke="hsl(215, 15%, 90%)"
-            strokeWidth={0.5}
-            strokeDasharray="8 4"
-          />
+          <line key={`gh-${y}`} x1={0} y1={oy - y} x2={svgW} y2={oy - y} stroke="hsl(215, 15%, 90%)" strokeWidth={0.5} strokeDasharray="8 4" />
         ))}
         {gridLinesV.map((x) => (
-          <line
-            key={`gv-${x}`}
-            x1={ox + x}
-            y1={0}
-            x2={ox + x}
-            y2={svgH}
-            stroke="hsl(215, 15%, 90%)"
-            strokeWidth={0.5}
-            strokeDasharray="8 4"
-          />
+          <line key={`gv-${x}`} x1={ox + x} y1={0} x2={ox + x} y2={svgH} stroke="hsl(215, 15%, 90%)" strokeWidth={0.5} strokeDasharray="8 4" />
         ))}
 
-        {/* Flight slope line (guide) */}
-        <line
-          x1={ox}
-          y1={oy}
-          x2={ox + flightRun}
-          y2={oy - totalHeight}
-          stroke="hsl(217, 80%, 55%)"
-          strokeWidth={1}
-          strokeDasharray="10 5"
-        />
+        {/* Flight slope line */}
+        <line x1={ox} y1={oy} x2={ox + flightRun} y2={oy - totalHeight} stroke="hsl(217, 80%, 55%)" strokeWidth={1} strokeDasharray="10 5" />
 
         {/* Steps */}
         {stepPaths}
 
         {/* Angle arc */}
-        <path
-          d={`M ${ox + arcRadius} ${oy} A ${arcRadius} ${arcRadius} 0 0 0 ${arcEndX} ${arcEndY}`}
-          fill="none"
-          stroke="hsl(217, 80%, 55%)"
-          strokeWidth={1}
-        />
-        <text
-          x={ox + arcRadius * 0.6}
-          y={oy - arcRadius * 0.15}
-          fontSize={14}
-          fill="hsl(217, 80%, 55%)"
-          fontFamily="monospace"
-        >
+        <path d={`M ${ox + arcRadius} ${oy} A ${arcRadius} ${arcRadius} 0 0 0 ${arcEndX} ${arcEndY}`} fill="none" stroke="hsl(217, 80%, 55%)" strokeWidth={1} />
+        <text x={ox + arcRadius * 0.6} y={oy - arcRadius * 0.15} fontSize={14} fill="hsl(217, 80%, 55%)" fontFamily="monospace">
           {result.angle.toFixed(1)}°
         </text>
 
@@ -186,19 +182,18 @@ export default function StairSectionView({ result }: Props) {
           {flightRun} mm
         </text>
 
-        {/* Dimension: Riser height (first riser) */}
+        {/* Dimension: Riser height */}
         <line x1={ox - 60} y1={oy} x2={ox - 60} y2={oy - riserHeight} stroke="hsl(217, 80%, 55%)" strokeWidth={0.8} />
         <text x={ox - 65} y={oy - riserHeight / 2} fontSize={10} fill="hsl(217, 80%, 55%)" fontFamily="monospace" textAnchor="end" dominantBaseline="middle">
           {riserHeight.toFixed(1)}
         </text>
 
-        {/* Dimension: Tread depth (first tread) */}
+        {/* Dimension: Tread depth */}
         <line x1={ox} y1={oy - riserHeight - 40} x2={ox + treadDepth} y2={oy - riserHeight - 40} stroke="hsl(217, 80%, 55%)" strokeWidth={0.8} />
         <text x={ox + treadDepth / 2} y={oy - riserHeight - 50} fontSize={10} fill="hsl(217, 80%, 55%)" fontFamily="monospace" textAnchor="middle">
           {treadDepth.toFixed(1)}
         </text>
 
-        {/* Arrow markers */}
         <defs>
           <marker id="arrowhead" markerWidth="6" markerHeight="4" refX="3" refY="2" orient="auto">
             <polygon points="0 0, 6 2, 0 4" fill="hsl(220, 15%, 40%)" />

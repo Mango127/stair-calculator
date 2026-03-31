@@ -5,23 +5,22 @@ interface Props {
 }
 
 export default function StairTopView({ result }: Props) {
-  const { flightRun, numTreads, treadDepth, nosing, width } = result;
+  const { flightRun, numTreads, treadDepth, width } = result;
   const wallThickness = 200;
-  const totalWidth = width + 2 * wallThickness; // 1800mm
+  const totalWidth = width + 2 * wallThickness;
   const gridSize = 600;
 
   const margin = 250;
   const svgW = totalWidth + 2 * margin;
-  const svgH = flightRun + nosing + 2 * margin;
+  const svgH = flightRun + 2 * margin;
 
-  const ox = margin + wallThickness; // inner left wall
-  const oy = margin; // top of run
+  const ox = margin + wallThickness;
+  const oy = margin;
 
   const viewBox = `0 0 ${svgW} ${svgH}`;
 
-  // Grid
   const gridH: number[] = [];
-  for (let y = 0; y <= flightRun + nosing + gridSize; y += gridSize) gridH.push(y);
+  for (let y = 0; y <= flightRun + gridSize; y += gridSize) gridH.push(y);
   const gridV: number[] = [];
   for (let x = -wallThickness - margin; x <= totalWidth + margin; x += gridSize) gridV.push(x);
 
@@ -38,49 +37,28 @@ export default function StairTopView({ result }: Props) {
         ))}
 
         {/* Walls */}
-        <rect x={margin} y={oy - 20} width={wallThickness} height={flightRun + nosing + 40} fill="hsl(215, 15%, 85%)" stroke="hsl(217, 80%, 55%)" strokeWidth={2} />
-        <rect x={margin + wallThickness + width} y={oy - 20} width={wallThickness} height={flightRun + nosing + 40} fill="hsl(215, 15%, 85%)" stroke="hsl(217, 80%, 55%)" strokeWidth={2} />
+        <rect x={margin} y={oy - 20} width={wallThickness} height={flightRun + 40} fill="hsl(215, 15%, 85%)" stroke="hsl(217, 80%, 55%)" strokeWidth={2} />
+        <rect x={margin + wallThickness + width} y={oy - 20} width={wallThickness} height={flightRun + 40} fill="hsl(215, 15%, 85%)" stroke="hsl(217, 80%, 55%)" strokeWidth={2} />
 
         {/* Treads */}
         {Array.from({ length: numTreads }).map((_, i) => {
           const ty = oy + flightRun - (i + 1) * treadDepth;
           return (
-            <g key={`tread-${i}`}>
-              <rect
-                x={ox}
-                y={ty}
-                width={width}
-                height={treadDepth}
-                fill="hsl(0, 0%, 99%)"
-                stroke="hsl(220, 20%, 15%)"
-                strokeWidth={1}
-              />
-              {/* Nosing line */}
-              {nosing > 0 && (
-                <line
-                  x1={ox}
-                  y1={ty + treadDepth + nosing}
-                  x2={ox + width}
-                  y2={ty + treadDepth + nosing}
-                  stroke="hsl(217, 80%, 55%)"
-                  strokeWidth={0.8}
-                  strokeDasharray="4 2"
-                />
-              )}
-            </g>
+            <rect
+              key={`tread-${i}`}
+              x={ox}
+              y={ty}
+              width={width}
+              height={treadDepth}
+              fill="hsl(0, 0%, 99%)"
+              stroke="hsl(220, 20%, 15%)"
+              strokeWidth={1}
+            />
           );
         })}
 
-        {/* Slab (last step) at top */}
-        <rect
-          x={ox}
-          y={oy - 20}
-          width={width}
-          height={20}
-          fill="hsl(215, 15%, 85%)"
-          stroke="hsl(220, 20%, 15%)"
-          strokeWidth={1.5}
-        />
+        {/* Slab at top */}
+        <rect x={ox} y={oy - 20} width={width} height={20} fill="hsl(215, 15%, 85%)" stroke="hsl(220, 20%, 15%)" strokeWidth={1.5} />
         <text x={ox + width / 2} y={oy - 5} fontSize={11} fill="hsl(220, 15%, 40%)" fontFamily="monospace" textAnchor="middle">
           SLAB
         </text>
