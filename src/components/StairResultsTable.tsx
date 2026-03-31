@@ -60,7 +60,32 @@ export default function StairResultsTable({ result, onTotalHeightChange, onFligh
     },
     { label: "Angle", value: `${result.angle.toFixed(1)}°`, constraint: "30° – 41°", valid: result.angle >= 30 && result.angle <= 41 },
     { label: "Width", value: "1400 mm (140 cm)", constraint: "Fixed", valid: true },
-    { label: "# Risers", value: `${result.numRisers}`, constraint: "Treads + 1", valid: true },
+    {
+      label: "# Risers",
+      value: `${result.numRisers}`,
+      constraint: "Treads + 1",
+      valid: true,
+      editor: (
+        <Input
+          type="number"
+          min={5}
+          max={25}
+          step={1}
+          defaultValue={result.numRisers}
+          className="h-7 text-xs font-mono w-[80px]"
+          onBlur={(e) => {
+            const v = parseInt(e.target.value);
+            if (!isNaN(v) && v >= 2 && v <= 30) onNumRisersChange(v);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              const v = parseInt((e.target as HTMLInputElement).value);
+              if (!isNaN(v) && v >= 2 && v <= 30) onNumRisersChange(v);
+            }
+          }}
+        />
+      ),
+    },
     {
       label: "Riser Height",
       value: `${result.riserHeight.toFixed(1)} mm`,
