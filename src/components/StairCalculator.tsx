@@ -20,12 +20,20 @@ export default function StairCalculator() {
 
   const handleNumTreadsChange = (v: number | undefined) => {
     setNumTreadsOverride(v);
-    setRiserHeightOverride(undefined); // clear conflicting override
+    setRiserHeightOverride(undefined);
+    setNumRisersOverride(undefined);
   };
 
   const handleRiserHeightChange = (v: number | undefined) => {
     setRiserHeightOverride(v);
-    setNumTreadsOverride(undefined); // clear conflicting override
+    setNumTreadsOverride(undefined);
+    setNumRisersOverride(undefined);
+  };
+
+  const handleNumRisersChange = (v: number | undefined) => {
+    setNumRisersOverride(v);
+    setNumTreadsOverride(undefined);
+    setRiserHeightOverride(undefined);
   };
 
   return (
