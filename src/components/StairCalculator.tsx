@@ -77,8 +77,11 @@ export default function StairCalculator() {
           onNumRisersChange={handleNumRisersChange}
         />
 
-        {/* Drawings */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* 3D View */}
+        <Stair3DView result={result} />
+
+        {/* Drawings - full width stacked */}
+        <div className="grid grid-cols-1 gap-6">
           <StairSectionView result={result} />
           <StairTopView result={result} />
         </div>
