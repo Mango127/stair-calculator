@@ -4,6 +4,7 @@ import { calculateStairs } from "@/lib/stairCalculations";
 import StairResultsTable from "./StairResultsTable";
 import StairSectionView from "./StairSectionView";
 import StairTopView from "./StairTopView";
+import Stair3DView from "./Stair3DView";
 
 export default function StairCalculator() {
   const [totalHeight, setTotalHeight] = useState(3040);
@@ -77,8 +78,11 @@ export default function StairCalculator() {
           onNumRisersChange={handleNumRisersChange}
         />
 
-        {/* Drawings */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* 3D View */}
+        <Stair3DView result={result} />
+
+        {/* Drawings - full width stacked */}
+        <div className="grid grid-cols-1 gap-6">
           <StairSectionView result={result} />
           <StairTopView result={result} />
         </div>
