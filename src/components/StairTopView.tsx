@@ -59,25 +59,25 @@ export default function StairTopView({ result }: Props) {
 
         {/* Slab at top */}
         <rect x={ox} y={oy - 20} width={width} height={20} fill="hsl(215, 15%, 85%)" stroke="hsl(220, 20%, 15%)" strokeWidth={1.5} />
-        <text x={ox + width / 2} y={oy - 5} fontSize={11} fill="hsl(220, 15%, 40%)" fontFamily="monospace" textAnchor="middle">
+        <text x={ox + width / 2} y={oy - 5} fontSize={22} fill="hsl(220, 15%, 40%)" fontFamily="monospace" textAnchor="middle">
           SLAB
         </text>
 
         {/* Width dimension */}
         <line x1={ox} y1={oy + flightRun + 60} x2={ox + width} y2={oy + flightRun + 60} stroke="hsl(220, 15%, 40%)" strokeWidth={1} />
-        <text x={ox + width / 2} y={oy + flightRun + 80} fontSize={12} fill="hsl(220, 15%, 40%)" fontFamily="monospace" textAnchor="middle">
+        <text x={ox + width / 2} y={oy + flightRun + 85} fontSize={22} fill="hsl(220, 15%, 40%)" fontFamily="monospace" textAnchor="middle">
           1400 mm (140 cm)
         </text>
 
         {/* Run dimension */}
         <line x1={ox + width + 60} y1={oy} x2={ox + width + 60} y2={oy + flightRun} stroke="hsl(220, 15%, 40%)" strokeWidth={1} />
-        <text x={ox + width + 70} y={oy + flightRun / 2} fontSize={12} fill="hsl(220, 15%, 40%)" fontFamily="monospace" dominantBaseline="middle" transform={`rotate(90, ${ox + width + 70}, ${oy + flightRun / 2})`}>
+        <text x={ox + width + 75} y={oy + flightRun / 2} fontSize={22} fill="hsl(220, 15%, 40%)" fontFamily="monospace" dominantBaseline="middle" transform={`rotate(90, ${ox + width + 75}, ${oy + flightRun / 2})`}>
           {flightRun} mm
         </text>
 
         {/* Direction arrow */}
         <line x1={ox + width / 2} y1={oy + flightRun - 80} x2={ox + width / 2} y2={oy + 80} stroke="hsl(217, 80%, 55%)" strokeWidth={2} markerEnd="url(#arrow-top)" />
-        <text x={ox + width / 2 + 15} y={oy + flightRun / 2} fontSize={11} fill="hsl(217, 80%, 55%)" fontFamily="monospace">
+        <text x={ox + width / 2 + 20} y={oy + flightRun / 2} fontSize={22} fill="hsl(217, 80%, 55%)" fontFamily="monospace">
           UP
         </text>
 

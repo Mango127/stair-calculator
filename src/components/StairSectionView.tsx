@@ -68,7 +68,7 @@ export default function StairSectionView({ result }: Props) {
               key="nosing-label"
               x={tx + nosing / 2}
               y={ty + STEP_THICKNESS + 14}
-              fontSize={9}
+              fontSize={18}
               fill="hsl(217, 80%, 55%)"
               fontFamily="monospace"
               textAnchor="middle"
@@ -115,7 +115,7 @@ export default function StairSectionView({ result }: Props) {
       key="slab-label"
       x={slabX + (treadDepth + 100) / 2}
       y={slabY - 8}
-      fontSize={11}
+      fontSize={22}
       fill="hsl(220, 15%, 40%)"
       fontFamily="monospace"
       textAnchor="middle"
@@ -166,31 +166,31 @@ export default function StairSectionView({ result }: Props) {
 
         {/* Angle arc */}
         <path d={`M ${ox + arcRadius} ${oy} A ${arcRadius} ${arcRadius} 0 0 0 ${arcEndX} ${arcEndY}`} fill="none" stroke="hsl(217, 80%, 55%)" strokeWidth={1} />
-        <text x={ox + arcRadius * 0.6} y={oy - arcRadius * 0.15} fontSize={14} fill="hsl(217, 80%, 55%)" fontFamily="monospace">
+        <text x={ox + arcRadius * 0.6} y={oy - arcRadius * 0.15} fontSize={24} fill="hsl(217, 80%, 55%)" fontFamily="monospace">
           {result.angle.toFixed(1)}°
         </text>
 
         {/* Dimension: Total Height */}
         <line x1={dimX} y1={oy} x2={dimX} y2={oy - totalHeight} stroke="hsl(220, 15%, 40%)" strokeWidth={1} markerEnd="url(#arrowhead)" markerStart="url(#arrowhead-up)" />
-        <text x={dimX + 10} y={oy - totalHeight / 2} fontSize={12} fill="hsl(220, 15%, 40%)" fontFamily="monospace" dominantBaseline="middle">
+        <text x={dimX + 10} y={oy - totalHeight / 2} fontSize={22} fill="hsl(220, 15%, 40%)" fontFamily="monospace" dominantBaseline="middle">
           {totalHeight} mm
         </text>
 
         {/* Dimension: Flight Run */}
         <line x1={ox} y1={dimY} x2={ox + flightRun} y2={dimY} stroke="hsl(220, 15%, 40%)" strokeWidth={1} />
-        <text x={ox + flightRun / 2} y={dimY + 20} fontSize={12} fill="hsl(220, 15%, 40%)" fontFamily="monospace" textAnchor="middle">
+        <text x={ox + flightRun / 2} y={dimY + 28} fontSize={22} fill="hsl(220, 15%, 40%)" fontFamily="monospace" textAnchor="middle">
           {flightRun} mm
         </text>
 
         {/* Dimension: Riser height */}
         <line x1={ox - 60} y1={oy} x2={ox - 60} y2={oy - riserHeight} stroke="hsl(217, 80%, 55%)" strokeWidth={0.8} />
-        <text x={ox - 65} y={oy - riserHeight / 2} fontSize={10} fill="hsl(217, 80%, 55%)" fontFamily="monospace" textAnchor="end" dominantBaseline="middle">
+        <text x={ox - 70} y={oy - riserHeight / 2} fontSize={20} fill="hsl(217, 80%, 55%)" fontFamily="monospace" textAnchor="end" dominantBaseline="middle">
           {riserHeight.toFixed(1)}
         </text>
 
         {/* Dimension: Tread depth */}
         <line x1={ox} y1={oy - riserHeight - 40} x2={ox + treadDepth} y2={oy - riserHeight - 40} stroke="hsl(217, 80%, 55%)" strokeWidth={0.8} />
-        <text x={ox + treadDepth / 2} y={oy - riserHeight - 50} fontSize={10} fill="hsl(217, 80%, 55%)" fontFamily="monospace" textAnchor="middle">
+        <text x={ox + treadDepth / 2} y={oy - riserHeight - 55} fontSize={20} fill="hsl(217, 80%, 55%)" fontFamily="monospace" textAnchor="middle">
           {treadDepth.toFixed(1)}
         </text>
 
