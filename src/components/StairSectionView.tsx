@@ -68,7 +68,7 @@ export default function StairSectionView({ result }: Props) {
               key="nosing-label"
               x={tx + nosing / 2}
               y={ty + STEP_THICKNESS + 14}
-              fontSize={9}
+              fontSize={18}
               fill="hsl(217, 80%, 55%)"
               fontFamily="monospace"
               textAnchor="middle"
