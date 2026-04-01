@@ -98,6 +98,7 @@ export default function StairResultsTable({ result, onTotalHeightChange, onFligh
           min={100}
           max={190}
           step={0.5}
+          key={`riserH-${Math.round(result.riserHeight * 10)}`}
           defaultValue={Math.round(result.riserHeight * 10) / 10}
           className="h-7 text-xs font-mono w-[100px]"
           onBlur={(e) => {
