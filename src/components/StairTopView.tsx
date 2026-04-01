@@ -59,7 +59,7 @@ export default function StairTopView({ result }: Props) {
 
         {/* Slab at top */}
         <rect x={ox} y={oy - 20} width={width} height={20} fill="hsl(215, 15%, 85%)" stroke="hsl(220, 20%, 15%)" strokeWidth={1.5} />
-        <text x={ox + width / 2} y={oy - 5} fontSize={11} fill="hsl(220, 15%, 40%)" fontFamily="monospace" textAnchor="middle">
+        <text x={ox + width / 2} y={oy - 5} fontSize={22} fill="hsl(220, 15%, 40%)" fontFamily="monospace" textAnchor="middle">
           SLAB
         </text>
 
