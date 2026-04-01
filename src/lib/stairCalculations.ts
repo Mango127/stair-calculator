@@ -83,7 +83,7 @@ export function calculateStairs(params: StairParams): StairResult {
   // 3. Derived values
   const riserHeight = totalHeight / numRisers;
   const numTreads = numRisers - 1;
-  const treadDepth = flightRun / numTreads;
+  const treadDepth = flightRun / numTreads + nosing;
   const angle = (Math.atan(totalHeight / flightRun) * 180) / Math.PI;
   const numSteps = numTreads + 1; // last step is slab
   const blondel = 2 * riserHeight + treadDepth;
