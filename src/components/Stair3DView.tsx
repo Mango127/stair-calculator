@@ -1,5 +1,5 @@
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, PerspectiveCamera, Text } from "@react-three/drei";
+import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import type { StairResult } from "@/lib/stairCalculations";
 import { useMemo } from "react";
 
@@ -7,42 +7,49 @@ interface Props {
   result: StairResult;
 }
 
-const STEP_THICKNESS = 0.02; // 20mm in meters
+const STEP_THICKNESS = 0.02; // 20mm
+const RISER_THICKNESS = 0.2; // 200mm
 
 function StairMesh({ result }: Props) {
   const { numTreads, numRisers, riserHeight, treadDepth, nosing, width, totalHeight, flightRun } = result;
 
-  // Convert mm to meters for 3D
   const s = 0.001;
   const rH = riserHeight * s;
   const tD = treadDepth * s;
   const going = (treadDepth - nosing) * s;
+  const nos = nosing * s;
   const w = width * s;
-  const wallT = 0.2; // 200mm walls
+  const wallT = 0.2;
   const stepT = STEP_THICKNESS;
+  const riserT = RISER_THICKNESS;
 
   const steps = useMemo(() => {
     const elements: JSX.Element[] = [];
 
-    for (let i = 0; i < numTreads; i++) {
-      const x = i * going;
-      const y = (i + 1) * rH;
+    for (let i = 0; i < numRisers; i++) {
+      const riserX = i * going;
+      const riserY = (i + 1) * rH;
 
-      // Tread
+      // Riser (200mm thick)
       elements.push(
-        <mesh key={`tread-${i}`} position={[x + tD / 2, y - stepT / 2, 0]}>
-          <boxGeometry args={[tD, stepT, w]} />
-          <meshStandardMaterial color="#e8e8e8" />
-        </mesh>
-      );
-
-      // Riser face
-      elements.push(
-        <mesh key={`riser-${i}`} position={[x, y - rH / 2, 0]}>
-          <boxGeometry args={[0.005, rH, w]} />
+        <mesh key={`riser-${i}`} position={[riserX, riserY - rH / 2, 0]}>
+          <boxGeometry args={[riserT, rH, w]} />
           <meshStandardMaterial color="#d0d0d0" />
         </mesh>
       );
+
+      if (i < numTreads) {
+        // Tread - nosing overhangs inward (backward over step below)
+        const treadStartX = riserX - nos;
+        const treadCenterX = treadStartX + tD / 2;
+
+        elements.push(
+          <mesh key={`tread-${i}`} position={[treadCenterX, riserY - stepT / 2, 0]}>
+            <boxGeometry args={[tD, stepT, w]} />
+            <meshStandardMaterial color="#e8e8e8" />
+          </mesh>
+        );
+      }
     }
 
     // Slab at top
@@ -81,7 +88,7 @@ function StairMesh({ result }: Props) {
     );
 
     return elements;
-  }, [numTreads, rH, tD, going, w, totalHeight, flightRun, wallT, stepT]);
+  }, [numTreads, numRisers, rH, tD, going, nos, w, totalHeight, flightRun, wallT, stepT, riserT]);
 
   return <group>{steps}</group>;
 }
@@ -102,7 +109,6 @@ export default function Stair3DView({ result }: Props) {
           <directionalLight position={[5, 8, 5]} intensity={1} castShadow />
           <directionalLight position={[-3, 4, -3]} intensity={0.3} />
           <StairMesh result={result} />
-          {/* Grid helper on the floor */}
           <gridHelper args={[10, 10, "#aabbcc", "#dde3ea"]} position={[runM / 2, -0.05, 0]} />
         </Canvas>
       </div>
