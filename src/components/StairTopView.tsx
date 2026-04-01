@@ -65,7 +65,7 @@ export default function StairTopView({ result }: Props) {
 
         {/* Width dimension */}
         <line x1={ox} y1={oy + flightRun + 60} x2={ox + width} y2={oy + flightRun + 60} stroke="hsl(220, 15%, 40%)" strokeWidth={1} />
-        <text x={ox + width / 2} y={oy + flightRun + 80} fontSize={12} fill="hsl(220, 15%, 40%)" fontFamily="monospace" textAnchor="middle">
+        <text x={ox + width / 2} y={oy + flightRun + 85} fontSize={22} fill="hsl(220, 15%, 40%)" fontFamily="monospace" textAnchor="middle">
           1400 mm (140 cm)
         </text>
 
