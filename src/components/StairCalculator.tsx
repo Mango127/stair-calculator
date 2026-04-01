@@ -4,6 +4,7 @@ import { calculateStairs } from "@/lib/stairCalculations";
 import StairResultsTable from "./StairResultsTable";
 import StairSectionView from "./StairSectionView";
 import StairTopView from "./StairTopView";
+import Stair3DView from "./Stair3DView";
 
 export default function StairCalculator() {
   const [totalHeight, setTotalHeight] = useState(3040);

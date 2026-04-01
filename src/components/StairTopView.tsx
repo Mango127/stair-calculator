@@ -25,9 +25,9 @@ export default function StairTopView({ result }: Props) {
   for (let x = -wallThickness - margin; x <= totalWidth + margin; x += gridSize) gridV.push(x);
 
   return (
-    <div className="w-full overflow-x-auto border border-border rounded-lg bg-card p-2">
-      <h3 className="text-sm font-semibold text-foreground mb-2 px-2">Top View (Plan)</h3>
-      <svg viewBox={viewBox} className="w-full" style={{ maxHeight: 500 }}>
+    <div className="w-full overflow-x-auto border border-border rounded-lg bg-card p-4">
+      <h3 className="text-base font-semibold text-foreground mb-3 px-2">Top View (Plan)</h3>
+      <svg viewBox={viewBox} className="w-full" style={{ minHeight: 500 }}>
         {/* Grid */}
         {gridH.map((y) => (
           <line key={`gh-${y}`} x1={0} y1={oy + y} x2={svgW} y2={oy + y} stroke="hsl(215, 15%, 90%)" strokeWidth={0.5} strokeDasharray="8 4" />
