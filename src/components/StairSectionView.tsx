@@ -190,7 +190,7 @@ export default function StairSectionView({ result }: Props) {
 
         {/* Dimension: Tread depth */}
         <line x1={ox} y1={oy - riserHeight - 40} x2={ox + treadDepth} y2={oy - riserHeight - 40} stroke="hsl(217, 80%, 55%)" strokeWidth={0.8} />
-        <text x={ox + treadDepth / 2} y={oy - riserHeight - 50} fontSize={10} fill="hsl(217, 80%, 55%)" fontFamily="monospace" textAnchor="middle">
+        <text x={ox + treadDepth / 2} y={oy - riserHeight - 55} fontSize={20} fill="hsl(217, 80%, 55%)" fontFamily="monospace" textAnchor="middle">
           {treadDepth.toFixed(1)}
         </text>
 

@@ -77,7 +77,7 @@ export default function StairTopView({ result }: Props) {
 
         {/* Direction arrow */}
         <line x1={ox + width / 2} y1={oy + flightRun - 80} x2={ox + width / 2} y2={oy + 80} stroke="hsl(217, 80%, 55%)" strokeWidth={2} markerEnd="url(#arrow-top)" />
-        <text x={ox + width / 2 + 15} y={oy + flightRun / 2} fontSize={11} fill="hsl(217, 80%, 55%)" fontFamily="monospace">
+        <text x={ox + width / 2 + 20} y={oy + flightRun / 2} fontSize={22} fill="hsl(217, 80%, 55%)" fontFamily="monospace">
           UP
         </text>
 
