@@ -178,7 +178,7 @@ export default function StairSectionView({ result }: Props) {
 
         {/* Dimension: Flight Run */}
         <line x1={ox} y1={dimY} x2={ox + flightRun} y2={dimY} stroke="hsl(220, 15%, 40%)" strokeWidth={1} />
-        <text x={ox + flightRun / 2} y={dimY + 20} fontSize={12} fill="hsl(220, 15%, 40%)" fontFamily="monospace" textAnchor="middle">
+        <text x={ox + flightRun / 2} y={dimY + 28} fontSize={22} fill="hsl(220, 15%, 40%)" fontFamily="monospace" textAnchor="middle">
           {flightRun} mm
         </text>
 
