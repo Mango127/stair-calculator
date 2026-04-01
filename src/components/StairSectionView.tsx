@@ -184,7 +184,7 @@ export default function StairSectionView({ result }: Props) {
 
         {/* Dimension: Riser height */}
         <line x1={ox - 60} y1={oy} x2={ox - 60} y2={oy - riserHeight} stroke="hsl(217, 80%, 55%)" strokeWidth={0.8} />
-        <text x={ox - 65} y={oy - riserHeight / 2} fontSize={10} fill="hsl(217, 80%, 55%)" fontFamily="monospace" textAnchor="end" dominantBaseline="middle">
+        <text x={ox - 70} y={oy - riserHeight / 2} fontSize={20} fill="hsl(217, 80%, 55%)" fontFamily="monospace" textAnchor="end" dominantBaseline="middle">
           {riserHeight.toFixed(1)}
         </text>
 
