@@ -172,7 +172,7 @@ export default function StairSectionView({ result }: Props) {
 
         {/* Dimension: Total Height */}
         <line x1={dimX} y1={oy} x2={dimX} y2={oy - totalHeight} stroke="hsl(220, 15%, 40%)" strokeWidth={1} markerEnd="url(#arrowhead)" markerStart="url(#arrowhead-up)" />
-        <text x={dimX + 10} y={oy - totalHeight / 2} fontSize={12} fill="hsl(220, 15%, 40%)" fontFamily="monospace" dominantBaseline="middle">
+        <text x={dimX + 10} y={oy - totalHeight / 2} fontSize={22} fill="hsl(220, 15%, 40%)" fontFamily="monospace" dominantBaseline="middle">
           {totalHeight} mm
         </text>
 
