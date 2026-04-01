@@ -154,6 +154,7 @@ export default function StairResultsTable({ result, onTotalHeightChange, onFligh
           min={6}
           max={25}
           step={1}
+          key={`steps-${result.numSteps}`}
           defaultValue={result.numSteps}
           className="h-7 text-xs font-mono w-[80px]"
           onBlur={(e) => {
