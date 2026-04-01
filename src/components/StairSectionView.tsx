@@ -166,7 +166,7 @@ export default function StairSectionView({ result }: Props) {
 
         {/* Angle arc */}
         <path d={`M ${ox + arcRadius} ${oy} A ${arcRadius} ${arcRadius} 0 0 0 ${arcEndX} ${arcEndY}`} fill="none" stroke="hsl(217, 80%, 55%)" strokeWidth={1} />
-        <text x={ox + arcRadius * 0.6} y={oy - arcRadius * 0.15} fontSize={14} fill="hsl(217, 80%, 55%)" fontFamily="monospace">
+        <text x={ox + arcRadius * 0.6} y={oy - arcRadius * 0.15} fontSize={24} fill="hsl(217, 80%, 55%)" fontFamily="monospace">
           {result.angle.toFixed(1)}°
         </text>
 
