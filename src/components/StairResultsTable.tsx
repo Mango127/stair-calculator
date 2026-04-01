@@ -67,24 +67,24 @@ export default function StairResultsTable({ result, onTotalHeightChange, onFligh
       valid: true,
       editor: (
         <Input
-70:           type="number"
-71:           min={5}
-72:           max={25}
-73:           step={1}
-74:           key={`risers-${result.numRisers}`}
-75:           defaultValue={result.numRisers}
-76:           className="h-7 text-xs font-mono w-[80px]"
-77:           onBlur={(e) => {
-78:             const v = parseInt(e.target.value);
-79:             if (!isNaN(v) && v >= 2 && v <= 30) onNumRisersChange(v);
-80:           }}
-81:           onKeyDown={(e) => {
-82:             if (e.key === "Enter") {
-83:               const v = parseInt((e.target as HTMLInputElement).value);
-84:               if (!isNaN(v) && v >= 2 && v <= 30) onNumRisersChange(v);
-85:             }
-86:           }}
-87:         />
+          type="number"
+          min={5}
+          max={25}
+          step={1}
+          key={`risers-${result.numRisers}`}
+          defaultValue={result.numRisers}
+          className="h-7 text-xs font-mono w-[80px]"
+          onBlur={(e) => {
+            const v = parseInt(e.target.value);
+            if (!isNaN(v) && v >= 2 && v <= 30) onNumRisersChange(v);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              const v = parseInt((e.target as HTMLInputElement).value);
+              if (!isNaN(v) && v >= 2 && v <= 30) onNumRisersChange(v);
+            }
+          }}
+        />
       ),
     },
     {
