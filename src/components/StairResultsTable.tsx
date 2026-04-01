@@ -71,6 +71,7 @@ export default function StairResultsTable({ result, onTotalHeightChange, onFligh
           min={5}
           max={25}
           step={1}
+          key={`risers-${result.numRisers}`}
           defaultValue={result.numRisers}
           className="h-7 text-xs font-mono w-[80px]"
           onBlur={(e) => {
@@ -97,6 +98,7 @@ export default function StairResultsTable({ result, onTotalHeightChange, onFligh
           min={100}
           max={190}
           step={0.5}
+          key={`riserH-${Math.round(result.riserHeight * 10)}`}
           defaultValue={Math.round(result.riserHeight * 10) / 10}
           className="h-7 text-xs font-mono w-[100px]"
           onBlur={(e) => {
@@ -123,6 +125,7 @@ export default function StairResultsTable({ result, onTotalHeightChange, onFligh
           min={5}
           max={24}
           step={1}
+          key={`treads-${result.numTreads}`}
           defaultValue={result.numTreads}
           className="h-7 text-xs font-mono w-[80px]"
           onBlur={(e) => {
@@ -151,6 +154,7 @@ export default function StairResultsTable({ result, onTotalHeightChange, onFligh
           min={6}
           max={25}
           step={1}
+          key={`steps-${result.numSteps}`}
           defaultValue={result.numSteps}
           className="h-7 text-xs font-mono w-[80px]"
           onBlur={(e) => {
