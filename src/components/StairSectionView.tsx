@@ -115,7 +115,7 @@ export default function StairSectionView({ result }: Props) {
       key="slab-label"
       x={slabX + (treadDepth + 100) / 2}
       y={slabY - 8}
-      fontSize={11}
+      fontSize={22}
       fill="hsl(220, 15%, 40%)"
       fontFamily="monospace"
       textAnchor="middle"
