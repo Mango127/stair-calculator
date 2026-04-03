@@ -2,8 +2,6 @@ import { useState, useMemo } from "react";
 import { Slider } from "@/components/ui/slider";
 import { calculateStairs } from "@/lib/stairCalculations";
 import StairResultsTable from "./StairResultsTable";
-import StairSectionView from "./StairSectionView";
-import StairTopView from "./StairTopView";
 import Stair3DView from "./Stair3DView";
 import StairSummaryTable from "./StairSummaryTable";
 
