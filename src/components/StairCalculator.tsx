@@ -85,7 +85,7 @@ export default function StairCalculator() {
                 All compliant stair designs · rise ≤190mm · tread ≥280mm · angle 30°–41° · Blondel 600–660mm
               </p>
             </div>
-            <StairSummaryTable onSelect={handleSummarySelect} />
+            <StairSummaryTable />
           </div>
         )}
 
