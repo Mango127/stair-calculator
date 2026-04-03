@@ -2,8 +2,6 @@ import { useState, useMemo } from "react";
 import { Slider } from "@/components/ui/slider";
 import { calculateStairs } from "@/lib/stairCalculations";
 import StairResultsTable from "./StairResultsTable";
-import StairSectionView from "./StairSectionView";
-import StairTopView from "./StairTopView";
 import Stair3DView from "./Stair3DView";
 import StairSummaryTable from "./StairSummaryTable";
 
@@ -41,15 +39,7 @@ export default function StairCalculator() {
     setRiserHeightOverride(undefined);
   };
 
-  const handleSummarySelect = (config: { totalHeight: number; flightRun: number; numTreads: number; nosing: number }) => {
-    setTotalHeight(config.totalHeight);
-    setFlightRunOverride(config.flightRun);
-    setNumTreadsOverride(config.numTreads);
-    setNosing(config.nosing);
-    setRiserHeightOverride(undefined);
-    setNumRisersOverride(undefined);
-    setActiveTab("calculator");
-  };
+  // no longer needed - summary handles its own detail view
 
   return (
     <div className="min-h-screen bg-background">
@@ -93,7 +83,7 @@ export default function StairCalculator() {
                 All compliant stair designs · rise ≤190mm · tread ≥280mm · angle 30°–41° · Blondel 600–660mm
               </p>
             </div>
-            <StairSummaryTable onSelect={handleSummarySelect} />
+            <StairSummaryTable />
           </div>
         )}
 
@@ -144,12 +134,6 @@ export default function StairCalculator() {
 
             {/* 3D View */}
             <Stair3DView result={result} />
-
-            {/* 2D Drawings */}
-            <div className="grid grid-cols-1 gap-8">
-              <StairSectionView result={result} />
-              <StairTopView result={result} />
-            </div>
           </div>
         )}
       </main>
