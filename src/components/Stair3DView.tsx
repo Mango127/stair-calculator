@@ -15,25 +15,32 @@ function StairMesh({ result }: Props) {
   const s = 0.001;
   const rH = riserHeight * s;
   const tD = treadDepth * s;
+  const nosingM = nosing * s;
   const going = (treadDepth - nosing) * s;
   const w = width * s;
   const wallT = 0.2;
+  const wallH_extend = 1.2; // 120cm walls
   const stepT = STEP_THICKNESS;
 
   const steps = useMemo(() => {
     const elements: JSX.Element[] = [];
 
     for (let i = 0; i < numTreads; i++) {
-      const x = i * going;
+      const x = i * going; // front edge of going
       const y = (i + 1) * rH;
 
+      // Tread: nosing extends BACKWARD (toward lower steps), not forward
+      // The going starts at x, tread extends from (x - nosingM) to (x + going)
+      // So tread center = x - nosingM/2 + going/2
+      const treadCenterX = x + going / 2 - nosingM / 2;
       elements.push(
-        <mesh key={`tread-${i}`} position={[x + tD / 2, y - stepT / 2, 0]}>
+        <mesh key={`tread-${i}`} position={[treadCenterX, y - stepT / 2, 0]}>
           <boxGeometry args={[tD, stepT, w]} />
           <meshStandardMaterial color="#f5f5f7" />
         </mesh>
       );
 
+      // Riser at front edge of this step
       elements.push(
         <mesh key={`riser-${i}`} position={[x, y - rH / 2, 0]}>
           <boxGeometry args={[0.005, rH, w]} />
@@ -42,18 +49,20 @@ function StairMesh({ result }: Props) {
       );
     }
 
+    // Landing slab
     const slabX = numTreads * going;
     const slabY = totalHeight * s;
     elements.push(
-      <mesh key="slab" position={[slabX + tD / 2 + 0.05, slabY - stepT / 2, 0]}>
-        <boxGeometry args={[tD + 0.1, stepT, w]} />
+      <mesh key="slab" position={[slabX + going / 2 + 0.05, slabY - stepT / 2, 0]}>
+        <boxGeometry args={[going + 0.1, stepT, w]} />
         <meshStandardMaterial color="#d2d2d7" />
       </mesh>
     );
 
+    // Walls - 120cm tall from stair line
     const runM = flightRun * s;
     const hM = totalHeight * s;
-    const wallH = hM + 0.3;
+    const wallH = hM + wallH_extend;
     elements.push(
       <mesh key="wall-left" position={[runM / 2, wallH / 2 - 0.1, -w / 2 - wallT / 2]}>
         <boxGeometry args={[runM + 1, wallH, wallT]} />
@@ -67,6 +76,7 @@ function StairMesh({ result }: Props) {
       </mesh>
     );
 
+    // Floor
     elements.push(
       <mesh key="floor" position={[runM / 2, -0.025, 0]}>
         <boxGeometry args={[runM + 1, 0.05, w + 2 * wallT]} />
@@ -75,7 +85,7 @@ function StairMesh({ result }: Props) {
     );
 
     return elements;
-  }, [numTreads, rH, tD, going, w, totalHeight, flightRun, wallT, stepT]);
+  }, [numTreads, rH, tD, going, nosingM, w, totalHeight, flightRun, wallT, wallH_extend, stepT]);
 
   return <group>{steps}</group>;
 }

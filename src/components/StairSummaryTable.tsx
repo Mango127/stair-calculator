@@ -25,7 +25,6 @@ export default function StairSummaryTable({ onSelect }: Props) {
 
     for (const height of HEIGHT_OPTIONS) {
       for (const run of FLIGHT_RUN_OPTIONS) {
-        // Try different step counts with nosing 0 and 25
         for (const nosing of [0, 25]) {
           for (let steps = 14; steps <= 25; steps++) {
             const numTreads = steps - 1;
@@ -56,7 +55,6 @@ export default function StairSummaryTable({ onSelect }: Props) {
     return configs;
   }, []);
 
-  const heights = HEIGHT_OPTIONS;
   const filteredConfigs = selectedHeight
     ? allConfigs.filter((c) => c.height === selectedHeight)
     : allConfigs;
@@ -73,27 +71,27 @@ export default function StairSummaryTable({ onSelect }: Props) {
   }, [filteredConfigs]);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-5">
       {/* Height filter pills */}
       <div className="flex items-center gap-2 flex-wrap">
-        <span className="text-sm font-medium text-muted-foreground">Filter by height:</span>
+        <span className="text-sm text-muted-foreground">Height:</span>
         <button
           onClick={() => setSelectedHeight(null)}
-          className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+          className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
             selectedHeight === null
-              ? "bg-foreground text-background shadow-sm"
+              ? "bg-foreground text-background"
               : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
           }`}
         >
           All
         </button>
-        {heights.map((h) => (
+        {HEIGHT_OPTIONS.map((h) => (
           <button
             key={h}
             onClick={() => setSelectedHeight(h === selectedHeight ? null : h)}
-            className={`px-3 py-1.5 rounded-full text-xs font-medium font-mono transition-all ${
+            className={`px-4 py-1.5 rounded-full text-sm font-medium font-mono transition-all ${
               selectedHeight === h
-                ? "bg-foreground text-background shadow-sm"
+                ? "bg-foreground text-background"
                 : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
             }`}
           >
@@ -102,77 +100,73 @@ export default function StairSummaryTable({ onSelect }: Props) {
         ))}
       </div>
 
-      {/* Table */}
-      <div className="rounded-2xl border border-border overflow-hidden backdrop-blur-sm bg-card/80">
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-border bg-secondary/50">
-                <th className="px-4 py-3 text-left font-medium text-muted-foreground tracking-wide text-xs uppercase">Height</th>
-                <th className="px-4 py-3 text-left font-medium text-muted-foreground tracking-wide text-xs uppercase">Run</th>
-                <th className="px-4 py-3 text-left font-medium text-muted-foreground tracking-wide text-xs uppercase">Steps</th>
-                <th className="px-4 py-3 text-left font-medium text-muted-foreground tracking-wide text-xs uppercase">Treads</th>
-                <th className="px-4 py-3 text-left font-medium text-muted-foreground tracking-wide text-xs uppercase">Nosing</th>
-                <th className="px-4 py-3 text-left font-medium text-muted-foreground tracking-wide text-xs uppercase">Riser H</th>
-                <th className="px-4 py-3 text-left font-medium text-muted-foreground tracking-wide text-xs uppercase">Tread D</th>
-                <th className="px-4 py-3 text-left font-medium text-muted-foreground tracking-wide text-xs uppercase">Angle</th>
-                <th className="px-4 py-3 text-left font-medium text-muted-foreground tracking-wide text-xs uppercase">Blondel</th>
-                <th className="px-4 py-3 text-left font-medium text-muted-foreground tracking-wide text-xs uppercase"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {Array.from(grouped.entries()).map(([height, configs]) =>
-                configs.map((c, i) => (
-                  <tr
-                    key={`${c.height}-${c.flightRun}-${c.numSteps}-${c.nosing}`}
-                    className="border-b border-border/50 hover:bg-accent/5 transition-colors cursor-pointer group"
-                    onClick={() =>
-                      onSelect({
-                        totalHeight: c.height,
-                        flightRun: c.flightRun,
-                        numTreads: c.numTreads,
-                        nosing: c.nosing,
-                      })
-                    }
-                  >
-                    <td className="px-4 py-2.5 font-mono text-foreground">
-                      {i === 0 ? <span className="font-semibold">{height}</span> : ""}
-                    </td>
-                    <td className="px-4 py-2.5 font-mono text-foreground">{c.flightRun}</td>
-                    <td className="px-4 py-2.5 font-mono text-foreground">{c.numSteps}</td>
-                    <td className="px-4 py-2.5 font-mono text-foreground">{c.numTreads}</td>
-                    <td className="px-4 py-2.5">
-                      {c.hasNosing ? (
-                        <span className="text-xs font-medium text-success">Y {c.nosing}mm</span>
-                      ) : (
-                        <span className="text-xs text-muted-foreground">N</span>
-                      )}
-                    </td>
-                    <td className="px-4 py-2.5 font-mono text-foreground">{c.result.riserHeight.toFixed(1)}</td>
-                    <td className="px-4 py-2.5 font-mono text-foreground">{c.result.treadDepth.toFixed(1)}</td>
-                    <td className="px-4 py-2.5 font-mono text-foreground">{c.result.angle.toFixed(1)}°</td>
-                    <td className="px-4 py-2.5 font-mono text-foreground">{c.result.blondel.toFixed(0)}</td>
-                    <td className="px-4 py-2.5">
-                      <span className="opacity-0 group-hover:opacity-100 transition-opacity text-xs text-primary font-medium">
-                        Select →
-                      </span>
-                    </td>
-                  </tr>
-                ))
-              )}
-              {filteredConfigs.length === 0 && (
-                <tr>
-                  <td colSpan={10} className="px-4 py-8 text-center text-muted-foreground">
-                    No valid configurations found
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+      {/* Clean table inspired by Level Settings UI */}
+      <div className="rounded-2xl overflow-hidden bg-card/60 backdrop-blur-sm">
+        {/* Header row */}
+        <div className="grid grid-cols-9 px-6 py-3 border-b border-border/40">
+          <span className="text-sm text-muted-foreground">Height</span>
+          <span className="text-sm text-muted-foreground">Run</span>
+          <span className="text-sm text-muted-foreground">Steps</span>
+          <span className="text-sm text-muted-foreground">Treads</span>
+          <span className="text-sm text-muted-foreground">Nosing</span>
+          <span className="text-sm text-muted-foreground">Riser H</span>
+          <span className="text-sm text-muted-foreground">Tread D</span>
+          <span className="text-sm text-muted-foreground">Angle</span>
+          <span className="text-sm text-muted-foreground">Blondel</span>
         </div>
-        <div className="px-4 py-2 bg-secondary/30 border-t border-border">
-          <p className="text-xs text-muted-foreground">
-            {filteredConfigs.length} valid configuration{filteredConfigs.length !== 1 ? "s" : ""} · Click a row to load it in the calculator
+
+        {/* Data rows */}
+        <div className="divide-y divide-border/20">
+          {Array.from(grouped.entries()).map(([height, configs]) =>
+            configs.map((c, i) => (
+              <div
+                key={`${c.height}-${c.flightRun}-${c.numSteps}-${c.nosing}`}
+                onClick={() =>
+                  onSelect({
+                    totalHeight: c.height,
+                    flightRun: c.flightRun,
+                    numTreads: c.numTreads,
+                    nosing: c.nosing,
+                  })
+                }
+                className="grid grid-cols-9 px-6 py-4 items-center hover:bg-accent/5 transition-colors cursor-pointer group"
+              >
+                <span className="text-base font-semibold text-foreground font-mono">
+                  {i === 0 ? height : ""}
+                </span>
+                <span className="text-base font-semibold text-foreground font-mono">{c.flightRun}</span>
+                <span className="text-base text-foreground font-mono">{c.numSteps}</span>
+                <span className="text-base text-foreground font-mono">{c.numTreads}</span>
+                <span className="text-sm">
+                  {c.hasNosing ? (
+                    <span className="text-foreground">{c.nosing} mm</span>
+                  ) : (
+                    <span className="text-muted-foreground">—</span>
+                  )}
+                </span>
+                <span className="text-base text-foreground font-mono">{c.result.riserHeight.toFixed(1)}</span>
+                <span className="text-base text-foreground font-mono">{c.result.treadDepth.toFixed(1)}</span>
+                <span className="text-base text-foreground font-mono">{c.result.angle.toFixed(1)}°</span>
+                <div className="flex items-center justify-between">
+                  <span className="text-base text-foreground font-mono">{c.result.blondel.toFixed(0)}</span>
+                  <span className="opacity-0 group-hover:opacity-100 transition-opacity text-sm text-primary">
+                    →
+                  </span>
+                </div>
+              </div>
+            ))
+          )}
+          {filteredConfigs.length === 0 && (
+            <div className="px-6 py-12 text-center text-muted-foreground">
+              No valid configurations found
+            </div>
+          )}
+        </div>
+
+        {/* Footer */}
+        <div className="px-6 py-3 border-t border-border/30 bg-secondary/20">
+          <p className="text-sm text-muted-foreground">
+            {filteredConfigs.length} configuration{filteredConfigs.length !== 1 ? "s" : ""} · Click to load in calculator
           </p>
         </div>
       </div>
