@@ -41,15 +41,7 @@ export default function StairCalculator() {
     setRiserHeightOverride(undefined);
   };
 
-  const handleSummarySelect = (config: { totalHeight: number; flightRun: number; numTreads: number; nosing: number }) => {
-    setTotalHeight(config.totalHeight);
-    setFlightRunOverride(config.flightRun);
-    setNumTreadsOverride(config.numTreads);
-    setNosing(config.nosing);
-    setRiserHeightOverride(undefined);
-    setNumRisersOverride(undefined);
-    setActiveTab("calculator");
-  };
+  // no longer needed - summary handles its own detail view
 
   return (
     <div className="min-h-screen bg-background">
