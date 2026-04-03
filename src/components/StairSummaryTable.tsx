@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react";
 import { calculateStairs, FLIGHT_RUN_OPTIONS, type StairResult } from "@/lib/stairCalculations";
 import StairSectionView from "./StairSectionView";
-import StairTopView from "./StairTopView";
 import Stair3DView from "./Stair3DView";
 
 const HEIGHT_OPTIONS = [3040, 3140, 3240, 3340, 3440, 3540, 3640];
@@ -82,7 +81,7 @@ export default function StairSummaryTable() {
           <button
             key={h}
             onClick={() => { setSelectedHeight(h === selectedHeight ? null : h); setSelectedConfig(null); }}
-            className={`px-4 py-1.5 rounded-full text-sm font-medium font-mono transition-all ${
+            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
               selectedHeight === h
                 ? "bg-foreground text-background"
                 : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
@@ -96,15 +95,15 @@ export default function StairSummaryTable() {
       {/* Table */}
       <div className="rounded-2xl overflow-hidden bg-card/60 backdrop-blur-sm">
         <div className="grid grid-cols-9 px-6 py-3 border-b border-border/40">
-          <span className="text-sm text-muted-foreground">Height</span>
-          <span className="text-sm text-muted-foreground">Run</span>
-          <span className="text-sm text-muted-foreground">Steps</span>
-          <span className="text-sm text-muted-foreground">Treads</span>
-          <span className="text-sm text-muted-foreground">Nosing</span>
-          <span className="text-sm text-muted-foreground">Riser H</span>
-          <span className="text-sm text-muted-foreground">Tread D</span>
-          <span className="text-sm text-muted-foreground">Angle</span>
-          <span className="text-sm text-muted-foreground">Blondel</span>
+          <span className="text-xs text-muted-foreground uppercase tracking-wider">Height</span>
+          <span className="text-xs text-muted-foreground uppercase tracking-wider">Run</span>
+          <span className="text-xs text-muted-foreground uppercase tracking-wider">Steps</span>
+          <span className="text-xs text-muted-foreground uppercase tracking-wider">Treads</span>
+          <span className="text-xs text-muted-foreground uppercase tracking-wider">Nosing</span>
+          <span className="text-xs text-muted-foreground uppercase tracking-wider">Riser H</span>
+          <span className="text-xs text-muted-foreground uppercase tracking-wider">Tread D</span>
+          <span className="text-xs text-muted-foreground uppercase tracking-wider">Angle</span>
+          <span className="text-xs text-muted-foreground uppercase tracking-wider">Blondel</span>
         </div>
 
         <div className="divide-y divide-border/20">
@@ -113,28 +112,24 @@ export default function StairSummaryTable() {
               <div
                 key={configKey(c)}
                 onClick={() => setSelectedConfig(isSelected(c) ? null : c)}
-                className={`grid grid-cols-9 px-6 py-4 items-center transition-colors cursor-pointer group ${
+                className={`grid grid-cols-9 px-6 py-3.5 items-center transition-colors cursor-pointer group ${
                   isSelected(c) ? "bg-primary/10" : "hover:bg-accent/5"
                 }`}
               >
-                <span className="text-base font-semibold text-foreground font-mono">
+                <span className="text-sm text-foreground font-semibold">
                   {i === 0 ? height : ""}
                 </span>
-                <span className="text-base font-semibold text-foreground font-mono">{c.flightRun}</span>
-                <span className="text-base text-foreground font-mono">{c.numSteps}</span>
-                <span className="text-base text-foreground font-mono">{c.numTreads}</span>
-                <span className="text-sm">
-                  {c.hasNosing ? (
-                    <span className="text-foreground">{c.nosing} mm</span>
-                  ) : (
-                    <span className="text-muted-foreground">—</span>
-                  )}
+                <span className="text-sm text-foreground">{c.flightRun}</span>
+                <span className="text-sm text-foreground">{c.numSteps}</span>
+                <span className="text-sm text-foreground">{c.numTreads}</span>
+                <span className="text-sm text-foreground">
+                  {c.hasNosing ? `${c.nosing}` : "—"}
                 </span>
-                <span className="text-base text-foreground font-mono">{c.result.riserHeight.toFixed(1)}</span>
-                <span className="text-base text-foreground font-mono">{c.result.treadDepth.toFixed(1)}</span>
-                <span className="text-base text-foreground font-mono">{c.result.angle.toFixed(1)}°</span>
+                <span className="text-sm text-foreground">{c.result.riserHeight.toFixed(1)}</span>
+                <span className="text-sm text-foreground">{c.result.treadDepth.toFixed(1)}</span>
+                <span className="text-sm text-foreground">{c.result.angle.toFixed(1)}°</span>
                 <div className="flex items-center justify-between">
-                  <span className="text-base text-foreground font-mono">{c.result.blondel.toFixed(0)}</span>
+                  <span className="text-sm text-foreground">{c.result.blondel.toFixed(0)}</span>
                   <span className={`transition-opacity text-sm text-primary ${isSelected(c) ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}>
                     {isSelected(c) ? "✓" : "→"}
                   </span>
@@ -159,12 +154,9 @@ export default function StairSummaryTable() {
       {/* Selected config detail */}
       {selectedConfig && (
         <div className="space-y-6 animate-in fade-in slide-in-from-top-2 duration-300">
-          <h2 className="text-xl font-semibold text-foreground">Top view and section</h2>
+          <h2 className="text-xl font-semibold text-foreground">Section and 3D</h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="space-y-6">
-              <StairSectionView result={selectedConfig.result} />
-              <StairTopView result={selectedConfig.result} />
-            </div>
+            <StairSectionView result={selectedConfig.result} />
             <Stair3DView result={selectedConfig.result} />
           </div>
         </div>
