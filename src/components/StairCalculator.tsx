@@ -136,12 +136,6 @@ export default function StairCalculator() {
 
             {/* 3D View */}
             <Stair3DView result={result} />
-
-            {/* 2D Drawings */}
-            <div className="grid grid-cols-1 gap-8">
-              <StairSectionView result={result} />
-              <StairTopView result={result} />
-            </div>
           </div>
         )}
       </main>
